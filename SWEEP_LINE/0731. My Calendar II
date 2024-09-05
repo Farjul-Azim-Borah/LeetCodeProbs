@@ -1,0 +1,33 @@
+Problem link : https://leetcode.com/problems/my-calendar-ii/description/
+
+class MyCalendarTwo {
+public:
+    MyCalendarTwo() {
+        
+    }
+    vector<pair<int , int>> vp;
+
+    bool book(int start, int end) {
+        vp.push_back({start , 1});
+        vp.push_back({end , -1});
+        sort(vp.begin() , vp.end());
+        int count;
+        for(auto [x,y] : vp){
+            count += y;
+            if(count>2){
+                break;
+            }
+        }
+        if(count>2){
+            pair<int , int> tar = {start,1};
+            auto it = lower_bound(vp.begin() , vp.end() , tar);
+            vp.erase(it);
+
+            tar = {end,-1};
+            auto it2 = lower_bound(vp.begin() , vp.end() , tar);
+            vp.erase(it2);
+            return false;
+        }
+        return true;
+    }
+};
