@@ -1,0 +1,36 @@
+
+Problem link : https://leetcode.com/problems/number-of-flowers-in-full-bloom/description/
+
+
+class Solution {
+public:
+    vector<int> fullBloomFlowers(vector<vector<int>>& flowers, vector<int>& people) {
+        map<int , int> mp;
+        for(auto i : flowers){
+            int a = i[0];
+            int b = i[1];
+            mp[a]++;
+            mp[b+1]--;
+        }
+        int sum = 0;
+        for(auto &[x,y] : mp){
+            mp[x] += sum;
+            sum = y;
+        }
+        vector<int> ans;
+
+        for(int i = 0; i<people.size(); ++i){
+            auto it = mp.lower_bound(people[i]);
+
+            if(it->first == people[i]){
+                ans.push_back(mp[it->first]);
+            }else if(it == mp.begin() || it == mp.end()){
+                ans.push_back(0);
+            }else{
+                it--;
+                ans.push_back(mp[it->first]);
+            }
+        }
+        return ans;
+    }
+};
