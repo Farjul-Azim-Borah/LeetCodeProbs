@@ -1,0 +1,125 @@
+Problem link : https://leetcode.com/problems/design-linked-list/description/
+
+class node {
+public:
+    int val;
+    node* next;
+    node(int data) {
+        this->val = data;
+        this->next = nullptr;
+    }
+};
+
+class MyLinkedList {
+public:
+    node* head;
+    MyLinkedList() { head = nullptr; }
+
+    int length(node* head) {
+        int l = 0;
+        node* temp = head;
+        while (temp != NULL) {
+            temp = temp->next;
+            l++;
+        }
+        return l;
+    }
+
+    int get(int index) {
+        int count = -1;
+        node* temp = head;
+        while (temp != NULL) {
+            count++;
+            if (count == index) {
+                return temp->val;
+            }
+            temp = temp->next;
+        }
+        return -1;
+    }
+
+    void addAtHead(int val) {
+        node* temp = new node(val);
+        if (head == NULL) {
+            head = temp;
+            return;
+        } else {
+            temp->next = head;
+            head = temp;
+            return;
+        }
+    }
+
+    void addAtTail(int val) {
+        node* newnode = new node(val);
+        if (head == NULL) {
+            head = newnode;
+            return;
+        }
+        node* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newnode;
+    }
+
+
+
+    void addAtIndex(int index, int val) {
+        if(index > length(head)){
+            return;
+        }
+        if (index == length(head)) {
+            addAtTail(val);
+            return;
+        } else if (index == 0) {
+            addAtHead(val);
+            return;
+        }
+
+        int count = -1;
+        node* temp = head;
+        while (temp != NULL) {
+            count++;
+            if (count == index - 1) {
+                break;
+            }
+            temp = temp->next;
+        }
+        node* newnode = new node(val);
+        newnode->next = temp->next;
+        temp->next = newnode;
+    }
+
+
+
+    void deleteAtIndex(int index) {
+        if (length(head) <= index) {
+            return;
+        }
+        if (index == 0) {
+            if (head != nullptr) {
+                node* temp = head;
+                head = head->next;
+                temp->next = nullptr;
+                delete temp;
+                return;
+            }
+        }
+        int count = -1;
+        node* temp = head;
+        node* prev = nullptr;
+
+        while (temp != NULL) {
+            count++;
+            if (count == index) {
+                break;
+            }
+            prev = temp;
+            temp = temp->next;
+        }
+        prev->next = temp->next;
+        temp->next = nullptr;
+        delete temp;
+    }
+};
