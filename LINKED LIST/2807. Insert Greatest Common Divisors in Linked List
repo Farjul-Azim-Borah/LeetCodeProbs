@@ -1,0 +1,31 @@
+
+Problem link : https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/description/?envType=daily-question&envId=2024-09-10
+
+
+class Solution {
+public:
+    int gcd(int a , int b){
+        if(b == 0){
+            return a;
+        }
+        return gcd(b , a%b);
+    }
+    
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        ListNode* temp = head;
+        ListNode* prev = nullptr;
+
+        while(temp != nullptr){
+            prev = temp; 
+            temp = temp->next;
+            if(temp == nullptr){
+                break;
+            }
+            int value = gcd(prev->val , temp->val);
+            ListNode* newnode = new ListNode(value);
+            prev->next = newnode;
+            newnode->next = temp;
+        }
+        return head;
+    }
+};
