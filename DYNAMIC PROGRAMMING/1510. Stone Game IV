@@ -1,0 +1,29 @@
+
+Problem link : https://leetcode.com/problems/stone-game-iv/
+
+
+
+class Solution {
+public:
+    int dp[100005];
+    int solve(int level){
+        if(level == 0){
+            return 0;
+        }
+        if(dp[level] != -1){
+            return dp[level];
+        }
+        int ans = 0;
+        for(int i = 1; i*i<=level; ++i){
+            if(solve(level-i*i) == 0){
+                ans = 1;
+                break;
+            }
+        }
+        return dp[level] = ans;
+    }
+    bool winnerSquareGame(int n) {
+        memset(dp , -1 , sizeof(dp));
+        return solve(n);
+    }
+};
